@@ -2,6 +2,8 @@ import streamlit as st
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+import plotly.express as px
 st.set_page_config(
     page_title="Project Web Scraping",
     page_icon=":tada:",
@@ -13,6 +15,8 @@ st.sidebar.header("World Happiness Analysis")
 #st.sidebar.slider('Select the Year', 2015, 2021)
 #################
 #dataset will come here:
+df2019 = pd.read_csv("https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/2019.csv")
+df2018 = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/2018.csv')
 #################
 choice = st.sidebar.radio("Select the Year", ('2018','2019'))
 if choice == '2018':
