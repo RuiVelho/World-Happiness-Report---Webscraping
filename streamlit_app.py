@@ -9,10 +9,11 @@ st.set_page_config(
     page_title="Project Web Scraping",
     page_icon=":tada:",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 #st.title("Evolution of World Happiness")
 #st.write("In this project we want to analyze the **World Happiness** in the last years and try to understand what contribute to the results")
-st.sidebar.header("World Happiness Analysis")
+st.sidebar.header("World Happiness Analysis\n `2018 and 2019`")
 #st.sidebar.slider('Select the Year', 2015, 2021)
 #################
 #dataset will come here:
@@ -98,11 +99,11 @@ if choice == 'Overall Happiness':
     pages[selected_page]()
 if choice == 'Happiness by Region':
     st.header("Happiness by Region 2019")
-    st.subheader("Here some explanation")
+    #st.subheader("Here some explanation")
     def page_plot1():
         col1, col2 = st.columns(2)
         with col1:
-            st.write("here column 1")
+            #st.write("here column 1")
             df2019_mean_region = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_mean_region.csv')
             #some graphs or tables
             fig, ax = plt.subplots(1,1)
@@ -111,9 +112,11 @@ if choice == 'Happiness by Region':
                                 orient='h',
                                 palette="ch:s=.25,rot=-.25",
                                 ax=ax)
-            plt.title("Average Happiness Score per Region")
-            plt.xlabel("Average Happiness Score") 
+            plt.title("Average Happiness Score per Region", fontsize=20)
+            plt.xlabel("Average Happiness Score", fontsize=14) 
             plt.ylabel("")
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=18)
             plt.xlim(left=4)
             plt.grid(axis='x', alpha=.3)
             st.pyplot(viz_1.figure)
@@ -125,13 +128,15 @@ if choice == 'Happiness by Region':
                                 orient='h',
                                 palette="ch:s=.25,rot=-.25",
                                 ax=ax)
-            plt.title("Range of Happiness Score per Region")
-            plt.xlabel("Range of Happiness Score") 
+            plt.title("Range of Happiness Score per Region", fontsize=20)
+            plt.xlabel("Range of Happiness Score", fontsize=14) 
             plt.ylabel("")
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=18)
             plt.grid(axis='x', alpha=.3)
             st.pyplot(viz_3.figure)
         with col2:
-            st.write("here column 2")
+            #st.write("here column 2")
             df2019_happinest_6 = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_happinest_6.csv')
             #some graphs or tables
             fig, ax = plt.subplots(1,1)
@@ -140,12 +145,29 @@ if choice == 'Happiness by Region':
                                 orient='h',
                                 palette="ch:s=.25,rot=-.25",
                                 ax=ax)
-            plt.title("Happiness score above 6.0")
-            plt.xlabel("Number of countries") 
+            plt.title("Happiness score above 6.0", fontsize=20)
+            plt.xlabel("Number of countries", fontsize=14) 
             plt.ylabel("")
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=18)
             plt.xticks([0, 3, 6, 9, 12, 15, 18])
             plt.grid(axis='x', alpha=.3)
             st.pyplot(viz_2.figure)
+            # web scraping graph: move to the first section
+            df_health10_ws = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df_health10_ws.csv')
+            fig, ax = plt.subplots(1,1)
+            viz_ws = sns.barplot(df_health10_ws,
+                                 y='Countries', 
+                                 x='Health spending as percent of GDP, 2019',
+                                 palette="ch:s=.25,rot=-.25")
+            plt.title("Health spending as percent of GDP, 2019", fontsize=20)
+            plt.xlabel("") 
+            plt.ylabel("")
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=18)
+            plt.xlim(left=8)
+            plt.grid(axis='x', alpha=.3) 
+            st.pyplot(viz_ws.figure)
     def page_plot2():
         col1, col2 = st.columns(2)
         with col1:
