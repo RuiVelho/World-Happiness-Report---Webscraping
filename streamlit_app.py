@@ -93,6 +93,7 @@ if choice == 'Happiness by Region':
             df2019_mean_region = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_mean_region.csv')
             #some graphs or tables
             fig, ax = plt.subplots(1,1)
+            plt.rcParams['figure.figsize']=(15,7)
             viz_1 = sns.barplot(y = df2019_mean_region.Region,
                                 x = df2019_mean_region.happiness_score,
                                 orient='h',
@@ -109,6 +110,7 @@ if choice == 'Happiness by Region':
             # second graph: move it somewhere else #
             df2019_range = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_range.csv')
             fig, ax = plt.subplots(1,1)
+            plt.rcParams['figure.figsize']=(15,7)
             viz_3 = sns.barplot(y = df2019_range.Region,
                                 x = df2019_range.happiness_score,
                                 orient='h',
@@ -126,6 +128,7 @@ if choice == 'Happiness by Region':
             df2019_happinest_6 = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_happinest_6.csv')
             #some graphs or tables
             fig, ax = plt.subplots(1,1)
+            plt.rcParams['figure.figsize']=(15,7)
             viz_2 = sns.barplot(y = df2019_happinest_6.Region,
                                 x = df2019_happinest_6.happiness_score,
                                 orient='h',
@@ -155,54 +158,84 @@ if choice == 'Happiness by Region':
             plt.grid(axis='x', alpha=.3) 
             st.pyplot(viz_ws.figure)
     def page_plot2():
+        # scatterplots
+        df2019_regional = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_regional.csv')
+        #selected_region = st.select_slider('Select Region', options=list(set(df2019_regional['Region']))+['All regions'])
+        selected_region = st.radio('Select Region', options=['All regions']+list(set(df2019_regional['Region'])), horizontal=True)
+        if selected_region=='All regions':
+            filtered_data = df2019_regional
+        else:
+            filtered_data = df2019_regional[df2019_regional['Region']==selected_region]
         col1, col2 = st.columns(2)
-        with col1:
-            st.write("here column 1")
-            #some graphs or tables
-            df2019_regional = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_regional.csv')
+        with col1:     
+            #st.write("here column 1")
             fig, ax = plt.subplots(1,1)
             plt.rcParams['figure.figsize']=(15,7)
-            viz_s1 = sns.scatterplot(df2019_regional,
+            viz_s1 = sns.scatterplot(filtered_data,
                 y='social_support',
                 x='happiness_score',
                 hue='Region',
                 s=200,
                 ax=ax)
+            plt.title("Social Support - Happiness Score", fontsize=20)
             plt.legend(loc='lower right', fontsize='12')
-            plt.ylabel("Social Support") 
-            plt.xlabel("Happiness Score")
+            plt.ylabel("Social Support", fontsize=14) 
+            plt.xlabel("Happiness Score", fontsize=14)
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=18)
             st.pyplot(viz_s1.figure)
-            # second plot:
+  
+        with col2:
+            #st.write("here column 2")
             fig, ax = plt.subplots(1,1)
             plt.rcParams['figure.figsize']=(15,7)
-            viz_s2 = sns.scatterplot(df2019_regional,
+            viz_s2 = sns.scatterplot(filtered_data,
                 y='gdp_per_capita',
                 x='happiness_score',
                 hue='Region',
                 s=200,
                 ax=ax)
+            plt.title("GDP - Happiness Score", fontsize=20)
             plt.legend(loc='lower right', fontsize='12')
-            plt.ylabel("GDP per capita") 
-            plt.xlabel("Happiness Score")
+            plt.ylabel("GDP per capita", fontsize=14) 
+            plt.xlabel("Happiness Score", fontsize=14)
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=18)
             st.pyplot(viz_s2.figure)
-        with col2:
-            st.write("here column 2")
-            #some graphs or tables
+            # second plot
             fig, ax = plt.subplots(1,1)
             plt.rcParams['figure.figsize']=(15,7)
-            viz_s3 = sns.scatterplot(df2019_regional,
+            viz_s3 = sns.scatterplot(filtered_data,
                 y='healthy_life_expectancy',
                 x='happiness_score',
                 hue='Region',
                 s=200,
                 ax=ax)
+            plt.title("Life Expectancy - Happiness Score", fontsize=20)
             plt.legend(loc='lower right', fontsize='12')
-            plt.ylabel("Healthy Life Expectancy") 
-            plt.xlabel("Happiness Score")
+            plt.ylabel("Healthy Life Expectancy", fontsize=14) 
+            plt.xlabel("Happiness Score", fontsize=14)
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=18)
             st.pyplot(viz_s3.figure)
+
+    def page_plot3():
+        col1, col2 = st.columns(2)
+        with col1:     
+            # heatmap
+            dropped_df2019 = df2019.drop(columns=['Overall rank'])
+            fig, ax = plt.subplots(1,1)
+            viz_corr = sns.heatmap(dropped_df2019.corr(),
+                                   cmap = 'RdBu_r',
+                                   square =True,
+                                   ax=ax)
+            plt.title('Heatmap 2019')
+            st.pyplot(viz_corr.figure)   
+            
     pages = {
-        "Plot1": page_plot1,    #names will change, don't worry :)
-        "Plot2": page_plot2     #names will change, don't worry :)
+        "Further Happiness Analysis": page_plot1,
+        "Correlations": page_plot2,
+        "Heatmap": page_plot3
     }
     selected_page = st.selectbox(
         "Choose Page",
