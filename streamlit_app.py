@@ -368,7 +368,7 @@ if choice == 'Social Support':
     )
     pages[selected_page]()
 if choice == 'Human Development':
-    st.header("Top 10 Countries Ratio of Commitment to Human Development")
+    st.header("Top 10 Countries with Highest Human Development Index")
     fig, ax5= plt.subplots(figsize=(6,3))
     viz5=sns.barplot(df_hd, x='Countries', y='Human development, 2021', palette="ch:s=.25,rot=-.25")
     ax5.set_xticklabels(df_hd['Countries'], rotation=45)
