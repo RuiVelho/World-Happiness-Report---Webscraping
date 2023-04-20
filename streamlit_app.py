@@ -99,7 +99,6 @@ if choice == 'Overall Happiness':
 if choice == 'Happiness by Region':
     st.header("Happiness by Region 2019")
     st.subheader("Here some explanation")
-    
     def page_plot1():
         col1, col2 = st.columns(2)
         with col1:
@@ -152,9 +151,47 @@ if choice == 'Happiness by Region':
         with col1:
             st.write("here column 1")
             #some graphs or tables
+            df2019_regional = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_regional.csv')
+            fig, ax = plt.subplots(1,1)
+            plt.rcParams['figure.figsize']=(15,7)
+            viz_s1 = sns.scatterplot(df2019_regional,
+                y='social_support',
+                x='happiness_score',
+                hue='Region',
+                s=200,
+                ax=ax)
+            plt.legend(loc='lower right', fontsize='12')
+            plt.ylabel("Social Support") 
+            plt.xlabel("Happiness Score")
+            st.pyplot(viz_s1.figure)
+            # second plot:
+            fig, ax = plt.subplots(1,1)
+            plt.rcParams['figure.figsize']=(15,7)
+            viz_s2 = sns.scatterplot(df2019_regional,
+                y='gdp_per_capita',
+                x='happiness_score',
+                hue='Region',
+                s=200,
+                ax=ax)
+            plt.legend(loc='lower right', fontsize='12')
+            plt.ylabel("GDP per capita") 
+            plt.xlabel("Happiness Score")
+            st.pyplot(viz_s2.figure)
         with col2:
             st.write("here column 2")
             #some graphs or tables
+            fig, ax = plt.subplots(1,1)
+            plt.rcParams['figure.figsize']=(15,7)
+            viz_s3 = sns.scatterplot(df2019_regional,
+                y='healthy_life_expectancy',
+                x='happiness_score',
+                hue='Region',
+                s=200,
+                ax=ax)
+            plt.legend(loc='lower right', fontsize='12')
+            plt.ylabel("Healthy Life Expectancy") 
+            plt.xlabel("Happiness Score")
+            st.pyplot(viz_s3.figure)
     pages = {
         "Plot1": page_plot1,    #names will change, don't worry :)
         "Plot2": page_plot2     #names will change, don't worry :)
@@ -228,6 +265,14 @@ if choice == 'Correlations':
         with col1:
             st.write("here column 1")
             #some graphs or tables
+            dropped_df2019 = df2019.drop(columns=['Overall rank'])
+            fig, ax = plt.subplots(1,1)
+            viz_corr = sns.heatmap(dropped_df2019.corr(),
+                                   cmap = 'RdBu_r',
+                                   square =True,
+                                   ax=ax)
+            plt.title('Heatmap 2019')
+            st.pyplot(viz_corr.figure)
         with col2:
             st.write("here column 2")
             #some graphs or tables
