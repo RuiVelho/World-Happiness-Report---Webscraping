@@ -22,7 +22,7 @@ df_hd=pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-
 df2015 = pd.read_csv("https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/2015.csv")
 
 
-choice = st.sidebar.radio("Select the Topic", ('Overall Happiness','Happiness by Region','Wealth Potential','Social Support','Human Development','Correlations'))
+choice = st.sidebar.radio("Select the Topic", ('Overall Happiness','Happiness by Region','Wealth Potential','Social Support','Human Development'))
 if choice == 'Overall Happiness':
     st.header("World Happiness Analysis")
     st.subheader("The 10 happiest countries in 2018 and 2019")
@@ -39,6 +39,7 @@ if choice == 'Overall Happiness':
             plt.ylabel('Happiness Score')
             plt.xticks(rotation=45)
             st.pyplot(viz10.figure)
+
         with col2:
             st.write("")
             sorted_df2018 = df2018.sort_values(by='Score', ascending=False)
@@ -50,6 +51,7 @@ if choice == 'Overall Happiness':
             plt.ylabel('Happiness Score')
             plt.xticks(rotation=45)
             st.pyplot(viz11.figure)
+
     def page_plot2():
         col1, col2 = st.columns(2)
         with col1:
@@ -142,21 +144,7 @@ if choice == 'Happiness by Region':
             plt.xticks([0, 3, 6, 9, 12, 15, 18])
             plt.grid(axis='x', alpha=.3)
             st.pyplot(viz_2.figure)
-            # web scraping graph: move to the first section
-            df_health10_ws = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df_health10_ws.csv')
-            fig, ax = plt.subplots(1,1)
-            viz_ws = sns.barplot(df_health10_ws,
-                                 y='Countries', 
-                                 x='Health spending as percent of GDP, 2019',
-                                 palette="ch:s=.25,rot=-.25")
-            plt.title("Health spending as percent of GDP, 2019", fontsize=20)
-            plt.xlabel("") 
-            plt.ylabel("")
-            plt.xticks(fontsize=14)
-            plt.yticks(fontsize=18)
-            plt.xlim(left=8)
-            plt.grid(axis='x', alpha=.3) 
-            st.pyplot(viz_ws.figure)
+
     def page_plot2():
         # scatterplots
         df2019_regional = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df2019_regional.csv')
@@ -294,9 +282,24 @@ if choice == 'Wealth Potential':
             plt.title('Top 10 Economic Freedom Scores in 2022')
             st.pyplot(viz20.figure)
         st.write("Economic Freedom can be defined as the ability of individual citizens and companies to freely decide where to invest and apply their wealth, which is closely related with how much free market is present within the region (Without limitations and interventions of the State and others). It is possible to observe that among the most permissive countries in the economic field we can find a good deal of the happiest nations. Being able to freely apply your resources and investments seems to be linked with one´s happiness")
+        # web scraping graph: move to the first section
+        df_health10_ws = pd.read_csv('https://raw.githubusercontent.com/MauricioConceicao123/World-Happiness-Report---Webscraping/main/df_health10_ws.csv')
+        fig, ax = plt.subplots(1,1)
+        viz_ws = sns.barplot(df_health10_ws,
+                                 y='Countries', 
+                                 x='Health spending as percent of GDP, 2019',
+                                 palette="ch:s=.25,rot=-.25")
+        plt.title("Health spending as percent of GDP, 2019", fontsize=20)
+        plt.xlabel("") 
+        plt.ylabel("")
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=18)
+        plt.xlim(left=8)
+        plt.grid(axis='x', alpha=.3) 
+        st.pyplot(viz_ws.figure)
     pages = {
         "Happiness & National Wealth": page_plot1,    #names will change, don't worry :)
-        "Economic Freedom": page_plot2     #names will change, don't worry :)
+        "Economic Freedom and Health Spending": page_plot2     #names will change, don't worry :)
     }
     selected_page = st.selectbox(
         "Choose Page",
@@ -379,41 +382,4 @@ if choice == 'Human Development':
     st.pyplot(viz5.figure)
 
     st.write("here column 1")
-   
-if choice == 'Correlations':
-    st.header("World Happiness Analysis 2018")
-    st.subheader("Here some explanation")
-    def page_plot1():
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("here column 1")
-            #some graphs or tables
-            dropped_df2019 = df2019.drop(columns=['Overall rank'])
-            fig, ax = plt.subplots(1,1)
-            viz_corr = sns.heatmap(dropped_df2019.corr(),
-                                   cmap = 'RdBu_r',
-                                   square =True,
-                                   ax=ax)
-            plt.title('Heatmap 2019')
-            st.pyplot(viz_corr.figure)
-        with col2:
-            st.write("here column 2")
-            #some graphs or tables
-    def page_plot2():
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("here column 1")
-            #some graphs or tables
-        with col2:
-            st.write("here column 2")
-            #some graphs or tables
-    pages = {
-        "Plot1": page_plot1,    #names will change, don't worry :)
-        "Plot2": page_plot2     #names will change, don't worry :)
-    }
-    selected_page = st.selectbox(
-        "Choose Page",
-        pages.keys()
-    )
-    pages[selected_page]()
 
