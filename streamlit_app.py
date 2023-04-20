@@ -360,7 +360,7 @@ if choice == 'Social Support':
             st.pyplot(viz4.figure)
     pages = {
         "Social Support": page_plot1,    #names will change, don't worry :)
-        "The Best Values of GDP per Capita": page_plot2     #names will change, don't worry :)
+        "GDP per Capita": page_plot2     #names will change, don't worry :)
     }
     selected_page = st.selectbox(
         "Choose Page",
@@ -380,6 +380,4 @@ if choice == 'Human Development':
     ax5.set_xlabel('')
     ax5.set(title="2021")
     st.pyplot(viz5.figure)
-
-    st.write("here column 1")
 
